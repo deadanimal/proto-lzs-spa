@@ -1,0 +1,283 @@
+<div class="header pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-dark d-inline-block mb-0">Syarikat Pembekal</h6>
+
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)">
+                  <i class="fas fa-luggage-cart text-dark"> </i>
+                </a>
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header bg-primary">
+          <h6 class="text-light text-uppercase ls-1 mb-1">Carta</h6>
+          <h5 class="h3 mb-0 text-white">Kategori pembekal</h5>
+        </div>
+        <div class="card-body">
+          <div class="chart">
+            <div class="amchart" id="sp1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="card">
+        <div class="card-header bg-primary">
+          <h6 class="text-light text-uppercase ls-1 mb-1">Carta</h6>
+          <h5 class="h3 mb-0 text-white">Gred Penilaian Pembekal</h5>
+        </div>
+        <div class="card-body">
+          <div class="chart">
+            <div class="amchart" id="sp2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header bg-primary">
+          <h3 class="m-0 text-white">Senarai syarikat pembekal</h3>
+        </div>
+        <div class="card-body">
+          <div class="dataTables_wrapper py-4">
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div class="dataTables_length" id="datatable_length">
+                  <label>
+                    Show
+                    <select
+                      name="datatable_length"
+                      aria-controls="datatable"
+                      class="form-control form-control-sm"
+                      (change)="entriesChange($event)"
+                    >
+                      <option value="10" [selected]="entries == 10">10</option>
+                      <option value="25" [selected]="entries == 25">25</option>
+                      <option value="50" [selected]="entries == 50">50</option>
+                      <option value="-1" [selected]="entries == -1">All</option>
+                    </select>
+                    entries
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div id="datatable_filter" class="dataTables_filter">
+                  <label>
+                    <input
+                      type="search"
+                      class="form-control form-control-sm"
+                      placeholder="Search records"
+                      aria-controls="datatable"
+                      (keyup)="filterTable($event)"
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <ngx-datatable
+              class="bootstrap selection-cell"
+              [columnMode]="'force'"
+              [headerHeight]="50"
+              [footerHeight]="50"
+              [rowHeight]="'auto'"
+              [limit]="entries != -1 ? entries : undefined"
+              [rows]="temp"
+            >
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Nama pembekal</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.name }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Nombor telefon</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.position }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Kategori</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.office }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Status pembekal</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <span
+                    *ngIf="row.is_active == 'Active'"
+                    class="badge badge-pill badge-success"
+                    >Aktif</span
+                  >
+                  <span
+                    *ngIf="row.is_active == 'Inactive'"
+                    class="badge badge-pill badge-warning"
+                    >Tamat</span
+                  >
+                  <span
+                    *ngIf="row.is_active == 'Pending'"
+                    class="badge badge-pill badge-primary"
+                    >Perlu Pengesahan</span
+                  >
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>View/Edit</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <a class="btn btn-sm btn-neutral" (click)="openModal(kp_dpa)">
+                    <i class="fas fa-edit text-dark"></i>
+                  </a>
+                  <a class="btn btn-sm btn-success">
+                    <i class="fas fa-check text-white"></i>
+                  </a>
+                  <a class="btn btn-sm btn-warning">
+                    <i class="fas fa-ban text-white"></i>
+                  </a>
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- sini modal -->
+<ng-template #kp_dpa>
+  <div class="modal-header bg-white">
+    <h6 class="modal-title text-default my-auto" id="modal-title-default">
+      Syarikat Pembekal
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label class="form-control-label">Nama pembekal</label>
+        <input
+          class="form-control"
+          placeholder=""
+          formControlName="name"
+          type="text"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Kategori</label>
+        <div class="custom-control custom-checkbox mb-3">
+          <input
+            class="custom-control-input"
+            id="customCheck1"
+            type="checkbox"
+          />
+
+          <label class="custom-control-label" for="customCheck1">
+            Syarikat perundingan
+          </label>
+        </div>
+        <div class="custom-control custom-checkbox mb-3">
+          <input
+            class="custom-control-input"
+            id="customCheck2"
+            type="checkbox"
+          />
+
+          <label class="custom-control-label" for="customCheck2">
+            Katering
+          </label>
+        </div>
+        <div class="custom-control custom-checkbox mb-3">
+          <input
+            class="custom-control-input"
+            id="customCheck3"
+            type="checkbox"
+          />
+
+          <label class="custom-control-label" for="customCheck3">
+            Pusat latihan
+          </label>
+        </div>
+        <div class="custom-control custom-checkbox mb-3">
+          <input
+            class="custom-control-input"
+            id="customCheck4"
+            type="checkbox"
+          />
+
+          <label class="custom-control-label" for="customCheck4">
+            Pengangkutan
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Nombor telefon pembekal</label>
+        <input
+          class="form-control"
+          placeholder=""
+          formControlName="name"
+          type="text"
+        />
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="modalRef.hide()"
+    >
+      Tolak
+    </button>
+
+    <button
+      class="btn btn-primary"
+      type="button"
+    >
+      Terima
+    </button>
+  </div>
+</ng-template>

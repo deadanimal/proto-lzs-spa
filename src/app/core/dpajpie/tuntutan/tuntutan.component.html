@@ -1,0 +1,744 @@
+<div class="header pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-dark d-inline-block mb-0">Tuntutan</h6>
+
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)">
+                  <i class="fas fa-handshake text-dark"> </i>
+                </a>
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="card">
+        <div class="card-header bg-primary">
+          <h6 class="text-light text-uppercase ls-1 mb-1">Graf</h6>
+          <h5 class="h3 mb-0 text-white">Tuntutan & Dana</h5>
+        </div>
+        <div class="card-body">
+          <div class="chart">
+            <div class="amchart" id="tuntutan1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-12">
+      <div class="card">
+        <div class="card-header bg-primary">
+          <h3 class="m-0 text-white">Senarai Tuntutan Asnaf</h3>
+        </div>
+        <div class="card-body">
+          <!-- <div class="row">
+                          <div class="col text-right">
+                              <button type="button" class="btn btn-secondary btn-sm" (click)="openModal(kp_dpa)">Tambah</button>
+                          </div>
+                      </div> -->
+          <div class="dataTables_wrapper py-4">
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div class="dataTables_length" id="datatable_length">
+                  <label>
+                    Show
+                    <select
+                      name="datatable_length"
+                      aria-controls="datatable"
+                      class="form-control form-control-sm"
+                      (change)="entriesChange($event)"
+                    >
+                      <option value="5" [selected]="entries == 5">5</option>
+                      <option value="10" [selected]="entries == 10">10</option>
+                      <option value="15" [selected]="entries == 15">15</option>
+                      <option value="-1" [selected]="entries == -1">All</option>
+                    </select>
+                    entries
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div id="datatable_filter" class="dataTables_filter">
+                  <label>
+                    <input
+                      type="search"
+                      class="form-control form-control-sm"
+                      placeholder="Carian"
+                      aria-controls="datatable"
+                      (keyup)="filterTable($event)"
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <ngx-datatable
+              class="bootstrap selection-cell"
+              [columnMode]="'force'"
+              [headerHeight]="50"
+              [footerHeight]="50"
+              [rowHeight]="'auto'"
+              [limit]="entries != -1 ? entries : undefined"
+              [rows]="temp"
+            >
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Nama</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.name }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Rekod Kedatangan</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.position }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Status</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <span
+                    *ngIf="row.is_active == 'Active'"
+                    class="badge badge-pill badge-success"
+                    >5</span
+                  >
+                  <span
+                    *ngIf="row.is_active == 'Inactive'"
+                    class="badge badge-pill badge-warning"
+                    >2</span
+                  >
+                  <span
+                    *ngIf="row.is_active == 'Pending'"
+                    class="badge badge-pill badge-primary"
+                    >3</span
+                  >
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Penilaian</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.office }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Tindakan</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <a class="btn btn-sm btn-neutral" (click)="openModal(asnaf)">
+                    <i class="fas fa-edit text-dark"></i>
+                  </a>
+                  <!-- <a class="btn btn-sm btn-success">
+                                          <i class="fas fa-check text-white"></i>
+                                      </a>
+                                      <a class="btn btn-sm btn-warning">
+                                          <i class="fas fa-ban text-white"></i>
+                                      </a> -->
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-12">
+      <div class="card">
+        <div class="card-header bg-primary">
+          <h3 class="m-0 text-white">Senarai Tuntutan GPAM</h3>
+        </div>
+        <div class="card-body">
+          <!-- <div class="row">
+                            <div class="col text-right">
+                                <button type="button" class="btn btn-secondary btn-sm" (click)="openModal(kp_dpa)">Tambah</button>
+                            </div>
+                        </div> -->
+          <div class="dataTables_wrapper py-4">
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div class="dataTables_length" id="datatable_length">
+                  <label>
+                    Show
+                    <select
+                      name="datatable_length"
+                      aria-controls="datatable"
+                      class="form-control form-control-sm"
+                      (change)="entriesChange($event)"
+                    >
+                      <option value="5" [selected]="entries == 5">5</option>
+                      <option value="10" [selected]="entries == 10">10</option>
+                      <option value="15" [selected]="entries == 15">15</option>
+                      <option value="-1" [selected]="entries == -1">All</option>
+                    </select>
+                    entries
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div id="datatable_filter" class="dataTables_filter">
+                  <label>
+                    <input
+                      type="search"
+                      class="form-control form-control-sm"
+                      placeholder="Carian"
+                      aria-controls="datatable"
+                      (keyup)="filterTable($event)"
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <ngx-datatable
+              class="bootstrap selection-cell"
+              [columnMode]="'force'"
+              [headerHeight]="50"
+              [footerHeight]="50"
+              [rowHeight]="'auto'"
+              [limit]="entries != -1 ? entries : undefined"
+              [rows]="temp"
+            >
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Nama</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.name }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Minimum Sesi Kelas</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.position }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Rekod Kedatangan</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.position }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Penilaian</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.office }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Tindakan</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <a class="btn btn-sm btn-neutral" (click)="openModal(gpam)">
+                    <i class="fas fa-edit text-dark"></i>
+                  </a>
+                  <!-- <a class="btn btn-sm btn-success">
+                                            <i class="fas fa-check text-white"></i>
+                                        </a>
+                                        <a class="btn btn-sm btn-warning">
+                                            <i class="fas fa-ban text-white"></i>
+                                        </a> -->
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6">
+      <div class="card">
+        <div class="card-header bg-primary">
+          <h3 class="m-0 text-white">Senarai Tuntutan Urusetia</h3>
+        </div>
+        <div class="card-body">
+          <!-- <div class="row">
+                            <div class="col text-right">
+                                <button type="button" class="btn btn-secondary btn-sm" (click)="openModal(kp_dpa)">Tambah</button>
+                            </div>
+                        </div> -->
+          <div class="dataTables_wrapper py-4">
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div class="dataTables_length" id="datatable_length">
+                  <label>
+                    Show
+                    <select
+                      name="datatable_length"
+                      aria-controls="datatable"
+                      class="form-control form-control-sm"
+                      (change)="entriesChange($event)"
+                    >
+                      <option value="5" [selected]="entries == 5">5</option>
+                      <option value="10" [selected]="entries == 10">10</option>
+                      <option value="15" [selected]="entries == 15">15</option>
+                      <option value="-1" [selected]="entries == -1">All</option>
+                    </select>
+                    entries
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div id="datatable_filter" class="dataTables_filter">
+                  <label>
+                    <input
+                      type="search"
+                      class="form-control form-control-sm"
+                      placeholder="Carian"
+                      aria-controls="datatable"
+                      (keyup)="filterTable($event)"
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <ngx-datatable
+              class="bootstrap selection-cell"
+              [columnMode]="'force'"
+              [headerHeight]="50"
+              [footerHeight]="50"
+              [rowHeight]="'auto'"
+              [limit]="entries != -1 ? entries : undefined"
+              [rows]="temp"
+            >
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Nama</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.name }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Status</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <span
+                    *ngIf="row.is_active == 'Active'"
+                    class="badge badge-pill badge-success"
+                    >5</span
+                  >
+                  <span
+                    *ngIf="row.is_active == 'Inactive'"
+                    class="badge badge-pill badge-warning"
+                    >2</span
+                  >
+                  <span
+                    *ngIf="row.is_active == 'Pending'"
+                    class="badge badge-pill badge-primary"
+                    >3</span
+                  >
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Tindakan</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <a
+                    class="btn btn-sm btn-neutral"
+                    (click)="openModal(urusetia)"
+                  >
+                    <i class="fas fa-edit text-dark"></i>
+                  </a>
+                  <!-- <a class="btn btn-sm btn-success">
+                                            <i class="fas fa-check text-white"></i>
+                                        </a>
+                                        <a class="btn btn-sm btn-warning">
+                                            <i class="fas fa-ban text-white"></i>
+                                        </a> -->
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6">
+      <div class="card">
+        <div class="card-header bg-primary">
+          <h3 class="m-0 text-white">Senarai Tuntutan Pihak Ketiga</h3>
+        </div>
+        <div class="card-body">
+          <!-- <div class="row">
+                            <div class="col text-right">
+                                <button type="button" class="btn btn-secondary btn-sm" (click)="openModal(kp_dpa)">Tambah</button>
+                            </div>
+                        </div> -->
+          <div class="dataTables_wrapper py-4">
+            <div class="row">
+              <div class="col-sm-12 col-md-6">
+                <div class="dataTables_length" id="datatable_length">
+                  <label>
+                    Show
+                    <select
+                      name="datatable_length"
+                      aria-controls="datatable"
+                      class="form-control form-control-sm"
+                      (change)="entriesChange($event)"
+                    >
+                      <option value="5" [selected]="entries == 5">5</option>
+                      <option value="10" [selected]="entries == 10">10</option>
+                      <option value="15" [selected]="entries == 15">15</option>
+                      <option value="-1" [selected]="entries == -1">All</option>
+                    </select>
+                    entries
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div id="datatable_filter" class="dataTables_filter">
+                  <label>
+                    <input
+                      type="search"
+                      class="form-control form-control-sm"
+                      placeholder="Carian"
+                      aria-controls="datatable"
+                      (keyup)="filterTable($event)"
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <ngx-datatable
+              class="bootstrap selection-cell"
+              [columnMode]="'force'"
+              [headerHeight]="50"
+              [footerHeight]="50"
+              [rowHeight]="'auto'"
+              [limit]="entries != -1 ? entries : undefined"
+              [rows]="temp"
+            >
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Nama</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{ row.name }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Status</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <span
+                    *ngIf="row.is_active == 'Active'"
+                    class="badge badge-pill badge-success"
+                    >5</span
+                  >
+                  <span
+                    *ngIf="row.is_active == 'Inactive'"
+                    class="badge badge-pill badge-warning"
+                    >2</span
+                  >
+                  <span
+                    *ngIf="row.is_active == 'Pending'"
+                    class="badge badge-pill badge-primary"
+                    >3</span
+                  >
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template ngx-datatable-header-template>
+                  <span>Tindakan</span>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <a
+                    class="btn btn-sm btn-neutral"
+                    (click)="openModal(pihakketiga)"
+                  >
+                    <i class="fas fa-edit text-dark"></i>
+                  </a>
+                  <!-- <a class="btn btn-sm btn-success">
+                                            <i class="fas fa-check text-white"></i>
+                                        </a>
+                                        <a class="btn btn-sm btn-warning">
+                                            <i class="fas fa-ban text-white"></i>
+                                        </a> -->
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #asnaf>
+  <div class="modal-header bg-white">
+    <h6 class="modal-title text-default my-auto" id="modal-title-default">
+      Tuntutan Asnaf
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true" class="text-dark my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label class="form-control-label">Nama</label>
+        <input
+          class="form-control"
+          id="example-text-input"
+          type="text"
+          placeholder="Nama"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Rekod Kedatangan</label>
+        <input
+          class="form-control"
+          id="example-date-input"
+          type="date"
+          placeholder="2018-11-23"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Penilaian (skala 1-5)</label>
+        <select class="form-control" data-toggle="select" id="selectr">
+          <option hidden selected>Pilih</option>
+          <option value="5">5 - Cemerlang</option>
+          <option value="4">4 - Baik</option>
+          <option value="3">3 - Sederhana</option>
+          <option value="2">2 - Kurang baik</option>
+          <option value="1">1 - Teruk</option>
+        </select>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="modalRef.hide()"
+    >
+      Batal
+    </button>
+
+    <button class="btn btn-primary" type="button">Simpan</button>
+  </div>
+</ng-template>
+
+<ng-template #gpam>
+  <div class="modal-header bg-white">
+    <h6 class="modal-title text-default my-auto" id="modal-title-default">
+      Tuntutan GPAM
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true" class="text-dark my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label class="form-control-label">Nama Pengajar</label>
+        <input
+          class="form-control"
+          id="example-text-input"
+          type="text"
+          placeholder="Nama"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Rekod Kedatangan</label>
+        <input
+          class="form-control"
+          id="example-date-input"
+          type="date"
+          placeholder="2018-11-23"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label"
+          >Minimum Sesi Kelas yang Dilaksanakan</label
+        >
+        <input
+          class="form-control"
+          id="example-text-input1"
+          type="text"
+          placeholder="Kelas"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Penilaian (skala 1-5)</label>
+        <select class="form-control" data-toggle="select" id="selectr">
+          <option hidden selected>Pilih</option>
+          <option value="5">5 - Cemerlang</option>
+          <option value="4">4 - Baik</option>
+          <option value="3">3 - Sederhana</option>
+          <option value="2">2 - Kurang baik</option>
+          <option value="1">1 - Teruk</option>
+        </select>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="modalRef.hide()"
+    >
+      Batal
+    </button>
+
+    <button class="btn btn-primary" type="button">Simpan</button>
+  </div>
+</ng-template>
+
+<ng-template #urusetia>
+  <div class="modal-header bg-white">
+    <h6 class="modal-title text-default my-auto" id="modal-title-default">
+      Tuntutan Urusetia
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true" class="text-dark my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label class="form-control-label">Nama Urusetia</label>
+        <input
+          class="form-control"
+          id="example-text-input"
+          type="text"
+          placeholder="Nama"
+        />
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Status Kursus/Program yang Dijalankan</label>
+        <input
+          class="form-control"
+          id="example-text-input1"
+          type="text"
+          placeholder="Nama"
+        />
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="modalRef.hide()"
+    >
+      Batal
+    </button>
+
+    <button class="btn btn-primary" type="button">Simpan</button>
+  </div>
+</ng-template>
+
+<ng-template #pihakketiga>
+  <div class="modal-header bg-white">
+    <h6 class="modal-title text-default my-auto" id="modal-title-default">
+      Tuntutan Pihak Ketiga
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true" class="text-dark my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form>
+        <div class="form-group">
+            <label class="form-control-label">Nama Syarikat/Pihak Ketiga</label>
+            <input
+              class="form-control"
+              id="example-text-input"
+              type="text"
+              placeholder="Nama"
+            />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label">Dokumen</label>
+            <select class="form-control" data-toggle="select" id="selectr">
+              <option hidden selected>Pilih</option>
+              <option value="1">Surat Rasmi</option>
+              <option value="2">Surat Kelulusan</option>
+              <option value="3">Surat Pemakluman</option>
+            </select>
+        </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="modalRef.hide()"
+    >
+      Batal
+    </button>
+
+    <button class="btn btn-primary" type="button">Simpan</button>
+  </div>
+</ng-template>
